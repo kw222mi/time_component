@@ -45,14 +45,18 @@ export default class Timer{
     this.#checkIfTimeIsUp(this.#timerTime * 60)
   }
 
-  set showProgress(value) {
-    this.#timerDiv.classList.add("progress", value)
+  #showProgress() {
+    //this.#timerDiv.classList.toggle('#timerDiv::after', true)
+    this.#timerDiv.style.setProperty('--progress',
+    1 - this.#timerTime / this.#timeLeft)
    
+
   }
 
   update(options) {
     Object.entries(options).forEach(([key, value]) => {
       this[key] = value
+      
     })
   }
 
@@ -79,15 +83,19 @@ export default class Timer{
     this.#timerDiv.textContent = configTime
     this.#timeLeft--
     this.#checkIfTimeIsUp(this.#timeLeft)
+    this.#showProgress()
   }
 
+
 }
-function createContainer(position) {
-  const container = document.createElement("div")
-  container.classList.add("timer-container")
-  container.dataset.position = position
-  document.body.append(container)
-  return container
-}
+
+// fixa configure time, visar ej 0.
+
+// fixa pause funktion.
+
+// fixa valbar progressbar.
+
+// fixa vad som händer när tiden är ute.
+
 
 

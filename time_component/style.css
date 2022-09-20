@@ -9,28 +9,23 @@
   cursor: pointer;
   transition: transform 300ms ease-in-out;
   overflow: hidden;
+  width: 300px;
+  
 }
 
-
-#timerDiv.progress::before {
+/*The progressbar */
+#timerDiv::after {
   content: "";
   position: absolute;
-  height: 2px;
+  height: 7px;
   width: calc(100% * var(--progress));
-  background-color: blue;
+  background-color: rgb(59, 5, 145);
   bottom: 0;
   left: 0;
   right: 0;
 }
 
 
-.timer-container {
-  position: fixed;
-  margin: 10px;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-}
+
 
 
