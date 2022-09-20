@@ -1,21 +1,26 @@
-export function setupTimer(elementInput) {
-  let counter = 0
-  const setTimer = (count) => {
-    counter = count
-    elementInput.textContent = `count is ${counter}`
+export default class Timer{
+
+  #timerTime = 0
+
+  constructor(options) {
+    Object.entries(options).forEach(([key, value]) =>{ this[key] = value})
   }
-  elementInput.addEventListener('click', () => setTimer(++counter))
-  setTimer(0)
+
+
+  set timerTime (value) {
+     
+    if (value === null) {
+      this.#timerTime = 0
+    } else {
+      try{
+      this.#timerTime = parseInt(value)
+      console.log(this.#timerTime)
+      } catch (NumberFormatException) {
+        
+    }
+    }
+    
+  }
 }
 
-/*
-export function setupCounter(element) {
-  let counter = 0
-  const setCounter = (count) => {
-    counter = count
-    element.innerHTML = `count is ${counter}`
-  }
-  element.addEventListener('click', () => setCounter(++counter))
-  setCounter(0)
-}
-*/
+

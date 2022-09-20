@@ -1,22 +1,21 @@
 import './style.css'
-import { setupTimer } from './timer.js'
 import './kw-timer.js'
+import Timer from './Timer.js'
 
 document.querySelector('#app').innerHTML = `
   <div>
     <h1>Example app</h1>
   
     <div>
-    
-    <input type='text' id='timeInput'/>
-    <button type='submit' id= 'timeButton' > Submit </button>
+     
     
     </div>
-    <div id='timeOutput' >
-    </div>
-
     <kw-timer></kw-timer>
-   
+    </div>
+  
   </div>
 `
-setupTimer(document.querySelector('#timeInput', '#timeOutput'))
+
+let timer = new Timer ({timerTime: 6})
+
+
