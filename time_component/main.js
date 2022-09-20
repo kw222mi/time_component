@@ -6,16 +6,15 @@ document.querySelector('#app').innerHTML = `
   <div>
     <h1>Example app</h1>
   
-    <div>
-     
+    <div id= 'timerDiv'>
     
     </div>
-    <kw-timer></kw-timer>
+    
     </div>
   
   </div>
 `
-
-let timer = new Timer ({timerTime: 6})
+let timerElement = document.querySelector('#timerDiv')
+let timer = new Timer ({timerTime: 6, displayElement: timerElement})
 
 
