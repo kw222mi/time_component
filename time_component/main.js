@@ -1,5 +1,5 @@
 import './style.css'
-import './kw-timer.js'
+
 import Timer from './Timer.js'
 
 document.querySelector('#app').innerHTML = `
@@ -15,6 +15,6 @@ document.querySelector('#app').innerHTML = `
   </div>
 `
 let timerElement = document.querySelector('#timerDiv')
-let timer = new Timer ({timerTime: 1, displayElement: timerElement})
+let timer = new Timer ({timerTime: 61, displayElement: timerElement})
 
 

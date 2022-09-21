@@ -1,8 +1,8 @@
 const DEFAULT_OPTIONS = {
   timerTime: 6, 
-  //displayElement: timerElement,
-  //showProgress: true,
-  position: "center",
+  displayElement:null,
+  //showProgressBar: true,
+  
 }
 
 
@@ -20,17 +20,25 @@ export default class Timer{
     
   }
 
+   /**
+   * @param {HTMLElement} element - referens to a DIV-element to display the timer in.
+   */
    set displayElement(element) {
-    if (element) {
+    //console.log('element' + element.nodeName)
+    if (element.nodeName == 'DIV') {
       this.#timerDiv = element
-    } else {
-
+    
+    } else if (element === null) {
     this.#timerDiv = document.createElement('div')
     this.#timerDiv.setAttribute("id", "timerDiv")
     document.body.appendChild(this.#timerDiv)
+    console.log('element else' + element.nodeName)
     }
   }
   
+  /**
+   * @param {number} value  - the time in minutes.
+   */
 
   set timerTime (value) {
     if (value === null) {
@@ -45,10 +53,10 @@ export default class Timer{
     this.#checkIfTimeIsUp(this.#timerTime * 60)
   }
 
-  #showProgress() {
+  #showProgressBar() {
     //this.#timerDiv.classList.toggle('#timerDiv::after', true)
     this.#timerDiv.style.setProperty('--progress',
-    1 - this.#timerTime / this.#timeLeft)
+    this.#timeLeft / 100)
    
 
   }
@@ -60,6 +68,10 @@ export default class Timer{
     })
   }
 
+  #createTimerDiv () {
+    
+  }
+
   #checkIfTimeIsUp(startTime) {
     this.#timeLeft = startTime
 
@@ -69,33 +81,81 @@ export default class Timer{
     else { alert("Time is up! ") }
   }
 
-  #configureTime() {
+  #displayTime() {
+    let configTime = this.#calculateTimeUnits()
+    this.#timerDiv.textContent = configTime
+    this.#timeLeft--
+    this.#showProgressBar()
+    this.#checkIfTimeIsUp(this.#timeLeft)
+  }
+
+  #calculateTimeUnits() {
     let days = Math.floor(this.#timeLeft / 86400)
     let hours = Math.floor((this.#timeLeft - (days * 86400)) / 3600)
     let minutes = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600)) / 60)
     let secs = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)))
 
-    return  this.#timeLeft + "(" + days + " Days " + hours + " Hours " + minutes + " Minutes and " + secs + " Secondes " + ")"
+    
+    return  'Total time: ' + this.#timeLeft + ' = ' + this.#checkForDays (days) + this.#timeFormat(hours) + ' : ' + this.#timeFormat(minutes) + ' : ' + this.#timeFormat(secs)
   }
 
-  #displayTime() {
-    let configTime = this.#configureTime()
-    this.#timerDiv.textContent = configTime
-    this.#timeLeft--
-    this.#checkIfTimeIsUp(this.#timeLeft)
-    this.#showProgress()
+  #timeFormat(timeUnit) {
+    if(timeUnit == 0){
+      return `00`
+    }
+    if(timeUnit < 10){
+      return `0${timeUnit}`
+    }else {
+      return `${timeUnit}`
+    }
   }
+  
+  #checkForDays (days) {
+    if (days == 0){
+      return `
+            `
+    } else {
+      return `${days} Days `
 
-
+    }
+  }
 }
-
-// fixa configure time, visar ej 0.
 
 // fixa pause funktion.
 
 // fixa valbar progressbar.
 
 // fixa vad som händer när tiden är ute.
+
+// fixa default element
+
+// 5 funktioner mot användaren :
+//timerTime:  
+//displayElement: 
+//showProgressBar: 
+//update:
+//alarm :
+//timeWarning:
+//pause:
+
+/*
+  #displayTime(minutes, seconds) {
+    if (minutes < 10 && seconds < 10)
+      return `0${minutes}:0${seconds}`
+    if (minutes == 0 && seconds < 10)
+      return `00:0${seconds}`
+    if (minutes == 0 && seconds == 0)
+      return `00:00`
+    if (minutes < 10)
+      return `0${minutes}:${seconds}`
+    if (seconds < 10)
+      return `${minutes}:0${seconds}`
+    if (minutes == 0)
+      return `00:${seconds}`
+    return `${minutes}:${seconds}`
+  }
+  */
+
 
 
 
