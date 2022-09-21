@@ -14,7 +14,7 @@
 }
 
 /*The progressbar */
-#timerDiv::after {
+#timerDiv.progress::after {
   content: "";
   position: absolute;
   height: 7px;

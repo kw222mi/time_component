@@ -54,10 +54,11 @@ export default class Timer{
   }
 
   #showProgressBar() {
-    //this.#timerDiv.classList.toggle('#timerDiv::after', true)
+    this.#timerDiv.classList.toggle('progress', true)
+    
+    let timerTimeInSeconds = this.#timerTime * 60
     this.#timerDiv.style.setProperty('--progress',
-    this.#timeLeft / 100)
-   
+    this.#timeLeft / timerTimeInSeconds)
 
   }
 
@@ -138,23 +139,7 @@ export default class Timer{
 //timeWarning:
 //pause:
 
-/*
-  #displayTime(minutes, seconds) {
-    if (minutes < 10 && seconds < 10)
-      return `0${minutes}:0${seconds}`
-    if (minutes == 0 && seconds < 10)
-      return `00:0${seconds}`
-    if (minutes == 0 && seconds == 0)
-      return `00:00`
-    if (minutes < 10)
-      return `0${minutes}:${seconds}`
-    if (seconds < 10)
-      return `${minutes}:0${seconds}`
-    if (minutes == 0)
-      return `00:${seconds}`
-    return `${minutes}:${seconds}`
-  }
-  */
+
 
 
 
