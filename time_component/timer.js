@@ -1,8 +1,8 @@
 const DEFAULT_OPTIONS = {
   timerTime: 6, 
   displayElement:null,
-  //showProgressBar: true,
-  
+  showProgressBar: true,
+  pauseOnHover: true,  
 }
 
 
@@ -14,6 +14,8 @@ export default class Timer{
   #end = 0 // change this to stop the counter at a higher value
   #refresh = 1000 // Refresh rate in milli seconds
   #isPaused = false
+  #progressInterval
+  
 
   constructor(options) {
     this.update({ ...DEFAULT_OPTIONS, ...options })
@@ -24,15 +26,12 @@ export default class Timer{
    * @param {HTMLElement} element - referens to a DIV-element to display the timer in.
    */
    set displayElement(element) {
-    //console.log('element' + element.nodeName)
     if (element.nodeName == 'DIV') {
       this.#timerDiv = element
-    
     } else if (element === null) {
     this.#timerDiv = document.createElement('div')
     this.#timerDiv.setAttribute("id", "timerDiv")
     document.body.appendChild(this.#timerDiv)
-    console.log('element else' + element.nodeName)
     }
   }
   
@@ -53,24 +52,59 @@ export default class Timer{
     this.#checkIfTimeIsUp(this.#timerTime * 60)
   }
 
-  #showProgressBar() {
-    this.#timerDiv.classList.toggle('progress', true)
-    
-    let timerTimeInSeconds = this.#timerTime * 60
-    this.#timerDiv.style.setProperty('--progress',
-    this.#timeLeft / timerTimeInSeconds)
-
+  //this.#unpause = () => (this.#isPaused = false)
+    //this.#pause = () => (this.#isPaused = true)
+  set pauseOnHover(value) {
+    if (value) {
+      this.#timerDiv.addEventListener("mouseover", () => {
+        this.#isPaused = true
+        console.log('mouse over')
+        console.log(this.#isPaused)
+      })
+      this.#timerDiv.addEventListener("mouseleave", () => {
+        this.#isPaused = false
+        console.log('mouse leave')
+        console.log(this.#isPaused)
+      })
+    } else {
+      this.#timerDiv.removeEventListener("mouseover", () => (console.log('mouse')))
+      this.#timerDiv.removeEventListener("mouseleave", () => (console.log('mouse')))
+    }
   }
+
+  
+  set showProgressBar(value) {
+    this.#timerDiv.classList.toggle('progress', value)
+  }
+
+    #updateProgressBar (){
+    // let timerTimeInSeconds = this.#timerTime * 60
+    // this.#timerDiv.style.setProperty('--progress',
+    // this.#timeLeft / timerTimeInSeconds)
+
+    
+      const func = () => {
+        //console.log(this.#isPaused)
+        if (!this.#isPaused) {
+          let timerTimeInSeconds = this.#timerTime * 60
+          this.#timerDiv.style.setProperty('--progress',
+          this.#timeLeft / timerTimeInSeconds)
+        }
+        this.#progressInterval = requestAnimationFrame(func)
+      }
+
+      this.#progressInterval = requestAnimationFrame(func)
+  }
+  
+  
+
+
 
   update(options) {
     Object.entries(options).forEach(([key, value]) => {
       this[key] = value
       
     })
-  }
-
-  #createTimerDiv () {
-    
   }
 
   #checkIfTimeIsUp(startTime) {
@@ -83,11 +117,17 @@ export default class Timer{
   }
 
   #displayTime() {
+    if (!this.#isPaused) {
+      console.log('display not pause')
     let configTime = this.#calculateTimeUnits()
     this.#timerDiv.textContent = configTime
     this.#timeLeft--
-    this.#showProgressBar()
+    this.#updateProgressBar()
     this.#checkIfTimeIsUp(this.#timeLeft)
+    } else {
+      console.log('display pause')
+    this.#checkIfTimeIsUp(this.#timeLeft)
+    }
   }
 
   #calculateTimeUnits() {
@@ -113,8 +153,7 @@ export default class Timer{
   
   #checkForDays (days) {
     if (days == 0){
-      return `
-            `
+      return ``
     } else {
       return `${days} Days `
 
@@ -122,22 +161,22 @@ export default class Timer{
   }
 }
 
-// fixa pause funktion.
 
-// fixa valbar progressbar.
 
 // fixa vad som händer när tiden är ute.
 
-// fixa default element
+// fixa default element, behövs kanske inte??
 
 // 5 funktioner mot användaren :
 //timerTime:  
 //displayElement: 
 //showProgressBar: 
 //update:
+//pause:
+
 //alarm :
 //timeWarning:
-//pause:
+
 
 
 
