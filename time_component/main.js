@@ -15,6 +15,6 @@ document.querySelector('#app').innerHTML = `
   </div>
 `
 let timerElement = document.querySelector('#timerDiv')
-let timer = new Timer ({timerTime: 6, displayElement: timerElement, showProgressBar: true})
+let timer = new Timer ({timerTime: 1, displayElement: timerElement, showProgressBar: true})
 
 

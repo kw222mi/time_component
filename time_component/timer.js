@@ -3,6 +3,7 @@ const DEFAULT_OPTIONS = {
   displayElement:null,
   showProgressBar: true,
   pauseOnHover: true,  
+  timeIsUpAction: 'color'
 }
 
 
@@ -14,7 +15,8 @@ export default class Timer{
   #end = 0 // change this to stop the counter at a higher value
   #refresh = 1000 // Refresh rate in milli seconds
   #isPaused = false
-  #progressInterval
+  #progressBarInterval
+  #timeIsUpAction
   
 
   constructor(options) {
@@ -72,34 +74,27 @@ export default class Timer{
     }
   }
 
+  set timeIsUpAction (value) {
+    this.#timeIsUpAction = value
+  }
   
   set showProgressBar(value) {
     this.#timerDiv.classList.toggle('progress', value)
   }
 
     #updateProgressBar (){
-    // let timerTimeInSeconds = this.#timerTime * 60
-    // this.#timerDiv.style.setProperty('--progress',
-    // this.#timeLeft / timerTimeInSeconds)
-
-    
+      
       const func = () => {
-        //console.log(this.#isPaused)
         if (!this.#isPaused) {
           let timerTimeInSeconds = this.#timerTime * 60
           this.#timerDiv.style.setProperty('--progress',
           this.#timeLeft / timerTimeInSeconds)
         }
-        this.#progressInterval = requestAnimationFrame(func)
+        this.#progressBarInterval = requestAnimationFrame(func)
       }
-
-      this.#progressInterval = requestAnimationFrame(func)
+      this.#progressBarInterval = requestAnimationFrame(func)
   }
   
-  
-
-
-
   update(options) {
     Object.entries(options).forEach(([key, value]) => {
       this[key] = value
@@ -113,7 +108,9 @@ export default class Timer{
     if (this.#timeLeft >= this.#end) {
       setTimeout(() => { this.#displayTime() }, this.#refresh)
     }
-    else { alert("Time is up! ") }
+    else { 
+      this.#timeIsUp () 
+    }
   }
 
   #displayTime() {
@@ -159,11 +156,35 @@ export default class Timer{
 
     }
   }
+
+  #timeIsUp () {
+    if (this.#timeIsUpAction === 'alert'){
+    alert("Time is up! ")
+    }
+    if (this.#timeIsUpAction === 'sound') {
+      this.#playSound()
+    }
+    if (this.#timeIsUpAction === 'color') {
+      this.#timeUpColorChange()
+    }
+  }
+
+  #playSound() {
+    let soundButton = document.createElement('button')
+    //soundButton.setAttribute("id", "soundButton")
+    document.body.appendChild(soundButton)
+    soundButton.addEventListener("click", () => (this.#play()))
+  }
+  #play () {
+    const audio = new Audio('./sound/car-horn-6408.mp3')
+    audio.play()
+  }
+
+  #timeUpColorChange() {
+    this.#timerDiv.style.setProperty('background-color', 'red')
+  }
 }
 
-
-
-// fixa vad som händer när tiden är ute.
 
 // fixa default element, behövs kanske inte??
 
@@ -173,8 +194,8 @@ export default class Timer{
 //showProgressBar: 
 //update:
 //pause:
-
 //alarm :
+
 //timeWarning:
 
 
