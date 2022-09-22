@@ -4,7 +4,8 @@ const DEFAULT_OPTIONS = {
   showProgressBar: true,
   pauseOnHover: true,
   timeIsUpAction: 'color',
-  tenSecondsLeftWarning: true
+  tenSecondsLeftWarning: true,
+ 
 }
 
 export default class Timer {
@@ -200,23 +201,22 @@ export default class Timer {
   #tenSecondsLeftColorChange() {
     this.#timerDiv.style.setProperty('background-color', 'orange')
   }
-}
 
+  remove() {
+    cancelAnimationFrame(this.#progressBarInterval)
+    this.#timerDiv.remove()
+    this.#timerDiv.removeEventListener("mouseover", () => {
+      this.#isPaused = true
+    })
+    this.#timerDiv.removeEventListener("mouseleave", () => {
+      this.#isPaused = false
+    })
+  }
+
+}
 
 // fixa default element, behövs kanske inte??
 
 // ta beslut om ljud
 
-// remove
-
 // utseende
-
-// sekunder istället för minuter?
-
-
-
-
-
-
-
-
