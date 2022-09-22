@@ -4,8 +4,7 @@ const DEFAULT_OPTIONS = {
   showProgressBar: true,
   pauseOnHover: true,
   timeIsUpAction: 'color',
-  tenSecondsLeftWarning: true,
- 
+  tenSecondsLeftWarning: true
 }
 
 export default class Timer {
@@ -25,12 +24,18 @@ export default class Timer {
   }
 
   /**
-  * @param {HTMLElement} element - referens to a DIV-element to display the timer in.
+  * Default time set to 300s.
+  *
+  * @param {HTMLElement} element - referens to a DIV-element to display the timer.
   */
   set displayElement(element) {
-    if (element.nodeName == 'DIV') {
+    if (element == null) {
+      this.#timerDiv = document.createElement('div')
+      this.#timerDiv.setAttribute("id", "timerDiv")
+      document.body.appendChild(this.#timerDiv)
+    } else if (element.nodeName == 'DIV') {
       this.#timerDiv = element
-    } else if (element === null) {
+    } else {
       this.#timerDiv = document.createElement('div')
       this.#timerDiv.setAttribute("id", "timerDiv")
       document.body.appendChild(this.#timerDiv)
@@ -38,7 +43,7 @@ export default class Timer {
   }
 
   /**
-   * @param {number} value  - the time in minutes.
+   * @param {number} value  - the time in seconds.
    */
 
   set timerTime(value) {
@@ -55,6 +60,8 @@ export default class Timer {
   }
 
   /**
+   * True by default.
+   *
    * @param {boolean} value
    */
   set pauseOnHover(value) {
@@ -76,13 +83,23 @@ export default class Timer {
   }
 
   /**
+   * Set the action for when time is up. 
+   * color - change the background to red.
+   * alert - (default) get an alert window with text "Time is up!"
+   *
    * @param {String} value
    */
   set timeIsUpAction(value) {
+    if (value == 'sound'){
+      this.#setupSound()
+    }
     this.#timeIsUpAction = value
   }
 
   /**
+   * Change the background color to orange when 10 s left.
+   * True by default.
+   *
    * @param {boolean} value
    */
   set tenSecondsLeftWarning(value) {
@@ -90,6 +107,8 @@ export default class Timer {
   }
 
   /**
+   * Default true.
+   *
    * @param {boolean} value
    */
   set showProgressBar(value) {
@@ -182,15 +201,27 @@ export default class Timer {
     }
   }
 
-  #playSound() {
+  /**
+   * User need to start the sound event because of restrictions in the
+   * browser.
+   */
+  #setupSound(){
+    this.#isPaused = true
     let soundButton = document.createElement('button')
-    //soundButton.setAttribute("id", "soundButton")
-    document.body.appendChild(soundButton)
-    soundButton.addEventListener("click", () => (this.#play()))
+    soundButton.setAttribute("id", "soundButton")
+    soundButton.textContent = 'Start timer'
+    this.#timerDiv.appendChild(soundButton)
+    soundButton.addEventListener("click", () => this.#playSound())
+  }
+
+  #playSound() {
+    this.#isPaused = false
+    setTimeout(() => { this.#play() }, this.#timerTime*1000)
+    
   }
 
   #play() {
-    const audio = new Audio('./sound/car-horn-6408.mp3')
+    const audio = new Audio('./src/sound/car-horn-6408.mp3')
     audio.play()
   }
 
@@ -215,7 +246,6 @@ export default class Timer {
 
 }
 
-// fixa default element, behövs kanske inte??
 
 // ta beslut om ljud
 

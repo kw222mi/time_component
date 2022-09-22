@@ -8,8 +8,8 @@
  *
  */
 
-import './style.css'
-import Timer from './Timer.js'
+import '/public/css/style.css'
+import Timer from '/src/Timer.js'
 
 document.querySelector('#app').innerHTML = `
   <div>
@@ -20,10 +20,10 @@ document.querySelector('#app').innerHTML = `
 let timerElement = document.querySelector('#timerDiv')
 let timer = new Timer ({
   displayElement: timerElement,
-  timerTime: 30,
+  timerTime: 20,
   showProgressBar: true,
   pauseOnHover: true,
-  timeIsUpAction: 'alert',
+  timeIsUpAction: 'sound',
   tenSecondsLeftWarning: true,
 })
 
