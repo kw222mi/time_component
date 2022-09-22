@@ -1,13 +1,13 @@
 const DEFAULT_OPTIONS = {
-  timerTime: 6, 
-  displayElement:null,
+  timerTime: 300,
+  displayElement: null,
   showProgressBar: true,
-  pauseOnHover: true,  
-  timeIsUpAction: 'color'
+  pauseOnHover: true,
+  timeIsUpAction: 'color',
+  tenSecondsLeftWarning: true
 }
 
-
-export default class Timer{
+export default class Timer {
 
   #timerTime = 0
   #timeLeft
@@ -17,113 +17,123 @@ export default class Timer{
   #isPaused = false
   #progressBarInterval
   #timeIsUpAction
-  
+  #tenSecondsLeftWarning
 
   constructor(options) {
     this.update({ ...DEFAULT_OPTIONS, ...options })
-    
   }
 
-   /**
-   * @param {HTMLElement} element - referens to a DIV-element to display the timer in.
-   */
-   set displayElement(element) {
+  /**
+  * @param {HTMLElement} element - referens to a DIV-element to display the timer in.
+  */
+  set displayElement(element) {
     if (element.nodeName == 'DIV') {
       this.#timerDiv = element
     } else if (element === null) {
-    this.#timerDiv = document.createElement('div')
-    this.#timerDiv.setAttribute("id", "timerDiv")
-    document.body.appendChild(this.#timerDiv)
+      this.#timerDiv = document.createElement('div')
+      this.#timerDiv.setAttribute("id", "timerDiv")
+      document.body.appendChild(this.#timerDiv)
     }
   }
-  
+
   /**
    * @param {number} value  - the time in minutes.
    */
 
-  set timerTime (value) {
+  set timerTime(value) {
     if (value === null) {
       this.#timerTime = 0
     } else {
-      try{
-      this.#timerTime = parseInt(value)
-      console.log(this.#timerTime)
+      try {
+        this.#timerTime = parseInt(value)
+        console.log(this.#timerTime)
       } catch (NumberFormatException) {
+      }
     }
-    }
-    this.#checkIfTimeIsUp(this.#timerTime * 60)
+    this.#checkIfTimeIsUp(this.#timerTime)
   }
 
-  //this.#unpause = () => (this.#isPaused = false)
-    //this.#pause = () => (this.#isPaused = true)
+  /**
+   * @param {boolean} value
+   */
   set pauseOnHover(value) {
     if (value) {
       this.#timerDiv.addEventListener("mouseover", () => {
         this.#isPaused = true
-        console.log('mouse over')
-        console.log(this.#isPaused)
       })
       this.#timerDiv.addEventListener("mouseleave", () => {
         this.#isPaused = false
-        console.log('mouse leave')
-        console.log(this.#isPaused)
       })
     } else {
-      this.#timerDiv.removeEventListener("mouseover", () => (console.log('mouse')))
-      this.#timerDiv.removeEventListener("mouseleave", () => (console.log('mouse')))
+      this.#timerDiv.removeEventListener("mouseover", () => {
+        this.#isPaused = true
+      })
+      this.#timerDiv.removeEventListener("mouseleave", () => {
+        this.#isPaused = false
+      })
     }
   }
 
-  set timeIsUpAction (value) {
+  /**
+   * @param {String} value
+   */
+  set timeIsUpAction(value) {
     this.#timeIsUpAction = value
   }
-  
+
+  /**
+   * @param {boolean} value
+   */
+  set tenSecondsLeftWarning(value) {
+    this.#tenSecondsLeftWarning = value
+  }
+
+  /**
+   * @param {boolean} value
+   */
   set showProgressBar(value) {
     this.#timerDiv.classList.toggle('progress', value)
   }
 
-    #updateProgressBar (){
-      
-      const func = () => {
-        if (!this.#isPaused) {
-          let timerTimeInSeconds = this.#timerTime * 60
-          this.#timerDiv.style.setProperty('--progress',
-          this.#timeLeft / timerTimeInSeconds)
-        }
-        this.#progressBarInterval = requestAnimationFrame(func)
+  #updateProgressBar() {
+    const func = () => {
+      if (!this.#isPaused) {
+        this.#timerDiv.style.setProperty('--progress',
+          this.#timeLeft / this.#timerTime)
       }
       this.#progressBarInterval = requestAnimationFrame(func)
+    }
+    this.#progressBarInterval = requestAnimationFrame(func)
   }
-  
+
   update(options) {
     Object.entries(options).forEach(([key, value]) => {
       this[key] = value
-      
     })
   }
 
   #checkIfTimeIsUp(startTime) {
     this.#timeLeft = startTime
-
+    if (this.#tenSecondsLeftWarning && this.#timeLeft < 10) {
+      this.#tenSecondsLeftColorChange()
+    }
     if (this.#timeLeft >= this.#end) {
       setTimeout(() => { this.#displayTime() }, this.#refresh)
     }
-    else { 
-      this.#timeIsUp () 
+    else {
+      this.#timeIsUp()
     }
   }
 
   #displayTime() {
     if (!this.#isPaused) {
-      console.log('display not pause')
-    let configTime = this.#calculateTimeUnits()
-    this.#timerDiv.textContent = configTime
-    this.#timeLeft--
-    this.#updateProgressBar()
-    this.#checkIfTimeIsUp(this.#timeLeft)
+      let configTime = this.#calculateTimeUnits()
+      this.#timerDiv.textContent = configTime
+      this.#timeLeft--
+      this.#updateProgressBar()
+      this.#checkIfTimeIsUp(this.#timeLeft)
     } else {
-      console.log('display pause')
-    this.#checkIfTimeIsUp(this.#timeLeft)
+      this.#checkIfTimeIsUp(this.#timeLeft)
     }
   }
 
@@ -133,33 +143,35 @@ export default class Timer{
     let minutes = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600)) / 60)
     let secs = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)))
 
-    
-    return  'Total time: ' + this.#timeLeft + ' = ' + this.#checkForDays (days) + this.#timeFormat(hours) + ' : ' + this.#timeFormat(minutes) + ' : ' + this.#timeFormat(secs)
+    return this.#makeTimeString (days, hours, minutes, secs)
+  }
+
+  #makeTimeString (days, hours, minutes, secs) {
+    return this.#checkForDays(days) + this.#timeFormat(hours) + ' : ' + this.#timeFormat(minutes) + ' : ' + this.#timeFormat(secs)
   }
 
   #timeFormat(timeUnit) {
-    if(timeUnit == 0){
+    if (timeUnit == 0) {
       return `00`
     }
-    if(timeUnit < 10){
+    if (timeUnit < 10) {
       return `0${timeUnit}`
-    }else {
+    } else {
       return `${timeUnit}`
     }
   }
-  
-  #checkForDays (days) {
-    if (days == 0){
+
+  #checkForDays(days) {
+    if (days == 0) {
       return ``
     } else {
       return `${days} Days `
-
     }
   }
 
-  #timeIsUp () {
-    if (this.#timeIsUpAction === 'alert'){
-    alert("Time is up! ")
+  #timeIsUp() {
+    if (this.#timeIsUpAction === 'alert') {
+      alert("Time is up! ")
     }
     if (this.#timeIsUpAction === 'sound') {
       this.#playSound()
@@ -175,7 +187,8 @@ export default class Timer{
     document.body.appendChild(soundButton)
     soundButton.addEventListener("click", () => (this.#play()))
   }
-  #play () {
+
+  #play() {
     const audio = new Audio('./sound/car-horn-6408.mp3')
     audio.play()
   }
@@ -183,20 +196,23 @@ export default class Timer{
   #timeUpColorChange() {
     this.#timerDiv.style.setProperty('background-color', 'red')
   }
+
+  #tenSecondsLeftColorChange() {
+    this.#timerDiv.style.setProperty('background-color', 'orange')
+  }
 }
 
 
 // fixa default element, behövs kanske inte??
 
-// 5 funktioner mot användaren :
-//timerTime:  
-//displayElement: 
-//showProgressBar: 
-//update:
-//pause:
-//alarm :
+// ta beslut om ljud
 
-//timeWarning:
+// remove
+
+// utseende
+
+// sekunder istället för minuter?
+
 
 
 
