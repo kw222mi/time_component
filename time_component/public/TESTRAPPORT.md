@@ -12,41 +12,41 @@ Funktion där användaren skickar in en referens till ett div element där modul
 
 input: DIV-referens
 
-![bild1](/test_img/1.png)
+![bild1](./test_img/1.png)
 
 input: P-referens
 
-![bild1](/test_img/2.png)
+![bild1](./test_img/2.png)
 
 input: ingen referens
 
-![bild1](/test_img/3.png)
+![bild1](./test_img/3.png)
 
 input: IMG- referens
 
-![bild1](/test_img/4.png)
+![bild1](./test_img/4.png)
 
 ### Funktion timerTime
 Funktion där användaren anger tiden som ska räknas ner i sekunder.
 
 input: 0
 
-![bild1](/test_img/5.png)
+![bild1](./test_img/5.png)
 
 input: -5
 
-![bild1](/test_img/6.png)
+![bild1](./test_img/6.png)
 
 
 input: 30
 
-![bild1](/test_img/7.png)
+![bild1](./test_img/7.png)
 
 Fail eftersom progressbar börjar räkna ner innan tiden startat.
 
 input: 100000
 
-![bild1](/test_img/8.png)
+![bild1](./test_img/8.png)
 
 Antar att det blir samma typ av fail som i förra testet, men att det inte syns så tydligt här.
 
@@ -68,15 +68,15 @@ Det finns tre olika val för vad som ska hända när tiden är slut. Timerns bak
 
 input: color
 
-![bild1](/test_img/11.png)
+![bild1](./test_img/11.png)
 
 input: alert
 
-![bild1](/test_img/12.png)
+![bild1](./test_img/12.png)
 
 input: sound
 
-![bild1](/test_img/13.png)
+![bild1](./test_img/13.png)
 
 ### Funktion tenSecondsLeftWarning
 
@@ -84,21 +84,21 @@ Med tio sekunder kvar ändras bakgrundsfärgen till orange.
 
 input: true
 
-![bild1](/test_img/14.png)
+![bild1](./test_img/14.png)
 
 input: false
 
-![bild1](/test_img/15.png)
+![bild1](./test_img/15.png)
 
 ### Funktion showProgressBar
 
 input: true 
 
-![bild1](/test_img/16.png)
+![bild1](./test_img/16.png)
 
 input: false
 
-![bild1](/test_img/17.png)
+![bild1](./test_img/17.png)
 
 ### Funktioner update() och remove()
 
@@ -106,7 +106,7 @@ Funktionerna ska uppdatera timern med nya värden, samt ta bort den. Här har ja
 
 input:
 
-![kod](/test_img/kod.png)
+![kod](./test_img/kod.png)
 
 output: Timern startas med tiden 30 sekunder, progressbar och pause on hover. 
 
