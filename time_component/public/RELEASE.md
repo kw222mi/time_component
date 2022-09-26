@@ -1,4 +1,4 @@
-# Mall för inlämning laboration 1, 1dv610
+# Inlämning laboration 1, 1dv610
 ​
 ## Checklista
   - [X] Jag har skrivit all kod och reflektioner själv. Jag har inte använt mig av andras kod för att lösa uppgiften.
@@ -25,17 +25,27 @@ Förtydligande: Examinator kommer sätta betyg oberoende på vad ni anser.
 ​
 ## Återanvändning
 
-Jag har gjort ett enkelt kodexempel (example.js) som användaren kan titta på för att förstå hur modulen kan användas. 
-Beskriv hur du anpassat din kod och instruktioner för att någon annan programmerare skall kunna använda din modul. Om du skrivit instruktioner för din användare, länka till dessa. Om inte, beskriv här hur någon skall göra för att använda din modul.
+Jag har gjort ett enkelt kodexempel (example.js) som användaren kan titta på för att förstå hur modulen kan användas.
+Jag har även skrivit instruktioner i [readme](https://github.com/kw222mi/time_component/blob/main/README.md) filen.
+För att det ska vara enkelt att använda så låter jag användaren skicka in parametrar och värden när objektet skapas. Användaren behöver inte skicka in parametrarna i en viss ordning utan behöver bara veta vilken nyckel och vilket värde som ska användas.
 ​
 ## Beskrivning av min kod
-Beskriv din kod på en hög abstraktionsnivå. En kort beskrivning av dina viktigaste klasser och metoder. Skapa gärna ett klassdiagram som bild. Använd det ni lärt er så här långt i 1dv607. Kommunicera så att jag kan förstå.
+
+- Min modul består av en enda klass, Timer.js. Timer-klassen ansvarar för nedräkning av tid i form av siffror och progressbar. Den har även ansvar för att meddela när tiden har gått ut, samt för att stoppa nedräkningen.
+
+- Style.css innehåller minimalt med css, främst för progressbaren.
+
+- Index.html finns för att kunna köra igång.
+
+- En liten klass exempel.js finns för att visa hur Timer fungerar
+
 ​
 ## Hur jag testat
-I och med att min modul är till största delen grafisk så har jag gjort manuella testfall och output presenteras som bilder. Jag har testat alla funktioner som är riktade till användaren av modulen i och med det så täcker testen alla funktioner i min modul även om varje funktion inte testas var för sig.
+I och med att min modul är till största delen grafisk så har jag gjort manuella testfall och output presenteras som bilder. Jag har testat alla funktioner som är riktade till användaren av modulen i och med det så täcker testerna alla funktioner i min modul, även om varje funktion inte testas var för sig.
 ​
 ### Sammanfattning av testfall
-Lista de enskilda testfallen. **Fetmarkera** sådant som du själv fyllt i. En rad per testfall. Om ni använder vertyg för testning kan ni ha en bild här med testrapporten. Tänk på att kommunicera till mig. Vad fungerar?, vad fungerar inte? Hur är det testat? Vilka delar testas inte?
+
+
 ​
 | Vad testas                                | input     |  | utfall PASS/FAIL |
 | ------------------------------------------|-------------|--------|---------|
@@ -59,13 +69,13 @@ Lista de enskilda testfallen. **Fetmarkera** sådant som du själv fyllt i. En r
 |   update(options)             |   kod i example.js    |        |    PASS     |
 |   remove()             |   kod i example.js    |        |    PASS     |
 
-* mer info se [testrapport](/testrapport.md)  
+* Progressbaren börjar ticka innan tiden startar, så den ligger lite före, detta syns inte med input 100000, men buggen borde ju finnas där också.
 
+mer info i testrapport.md 
 
 ​
 ## Kodkvalitetskrav
 ​
-**Fetmarkera** de "regler" som används ur CC. Ni kan frångå tabellformat om ni vill. Skapa direktlänkar till er kod där det är lämpligt. Skriv så att jag kan förstå.
 ​
 ### Namngivning
 ​
@@ -90,11 +100,11 @@ Lista de enskilda testfallen. **Fetmarkera** sådant som du själv fyllt i. En r
 ​
 ## Laborationsreflektion
 
-Jag är glad att jag valde en relativt liten och enkel uppgift så att jag kunde koncentrera mig på kodkvalité snarare än att få ihop koden. Jag tycker att uppgiften har varit mycket givande och jag har lärt mig mycket. Jag uppfattar kodkvalitet som lätt, det finns regler att följa och dessa är logiska och tydliga. Man förstår varför det är bra att göra det som står i boken och jag ser att koden blir mycket bättre när jag följer reglerna. Samtidigt är kodkvalitet rätt svårt. Det är lätt att bli hemmablind när man sitter där i sin egen lilla värld. Man förstår precis vad alla namn betyder och metoderna är glasklara. Förmodligen är det inte lika glasklart för någon annan. 
+Jag är glad att jag valde en relativt liten och enkel modul så att jag kunde koncentrera mig på kodkvalité snarare än att få ihop koden. Jag tycker att uppgiften har varit mycket givande och jag har lärt mig mycket. Jag uppfattar kodkvalitet som lätt, det finns regler att följa och dessa är logiska och tydliga. Man förstår varför det är bra att göra det som står i boken och jag ser att koden blir mycket bättre när jag följer reglerna. Samtidigt är kodkvalitet svårt. Det är lätt att bli hemmablind när man sitter där i sin egen lilla värld. Man förstår precis vad alla namn betyder och metoderna är glasklara. Förmodligen är det inte lika glasklart för någon annan som tittar på koden. Jag märker ju också nu när jag suttit och analyserat och dokumenterat att jag hittar nya saker som kan förbättras. Delar av metoder som borde brytas ut och namn som kunde vara bättre.
 
-Jag märkte under arbetet med koden att det blev problem när jag lade till vissa typer av funktion. Som när jag implementerade att timern skulle stoppas när muspekaren fördes över. Jag fick införa en boolean - isPaused, och denna kom att påverka flera olika delar av koden. Många metoder var tvugna att testa om timern var pausad eller inte vilket medförde att de helt plötligt gjorde två saker och jag var tvungen att strukturera om koden helt.  
+Jag märkte under arbetet med koden att det blev problem när jag lade till vissa typer av funktion. Som när jag implementerade att timern skulle stoppas när muspekaren fördes över. Jag fick införa en boolean - isPaused, och denna kom att påverka flera olika delar av koden. Många metoder var tvugna att testa om timern var pausad eller inte vilket medförde att de helt plötligt gjorde två saker och jag var tvungen att strukturera om koden helt. Jag har även haft problem med att det blir sidoeffekter, som set timerTime som även sätter igång timern genom att skicka tiden den tar emot från användaren vidare till metoden checkIfTimeIsUp.
 
-Jag gillar tanken på att koden ska berätta en historia. När jag läste programmering för ca 15 år sedan fick jag lära mig att skapa en main metod som var själva programmet och bestod av endast metodanrop. Det blev väldigt mycket som att berätta en historia och jag tyckte att det gav en bra överblick. Man programmerar ju inte riktigt på samma sätt idag och jag tycker att det är mycket svårare att få till den där berättelsen särskilt om man har event inblandade som kan utlösas lite när och då.
+Jag gillar tanken på att koden ska berätta en historia. När jag läste programmering för ca 15 år sedan fick jag lära mig att skapa en main metod som var själva programmet och bestod av endast metodanrop. Det blev väldigt likt att berätta en historia och jag tyckte att det gav en bra överblick. Man programmerar ju inte riktigt på samma sätt idag och jag tycker att det är mycket svårare att få till den där berättelsen särskilt om man har event inblandade som kan utlösas lite när och då och inte har någon given plats i kronologin.
 
 
 

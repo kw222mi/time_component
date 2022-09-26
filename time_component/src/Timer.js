@@ -143,8 +143,8 @@ export default class Timer {
     if (!this.#isPaused) {
       let configTime = this.#calculateTimeUnits()
       this.#timerDiv.textContent = configTime
-      this.#timeLeft--
       this.#updateProgressBar()
+      this.#timeLeft--
       this.#checkIfTimeIsUp(this.#timeLeft)
     } else {
       this.#checkIfTimeIsUp(this.#timeLeft)
