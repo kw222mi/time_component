@@ -29,8 +29,8 @@ let timer = new Timer ({
   tenSecondsLeftWarning: true,
 })
 
- setTimeout(() => { timer.update({timerTime: 60, timeIsUpAction: 'color'}) }, 5000)
+ //setTimeout(() => { timer.update({timerTime: 60, timeIsUpAction: 'color'}) }, 5000)
 
- setTimeout(() => { timer.remove() }, 5000)
+ //setTimeout(() => { timer.remove() }, 5000)
 
 

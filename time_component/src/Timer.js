@@ -52,7 +52,6 @@ export default class Timer {
     } else {
       try {
         this.#timerTime = parseInt(number)
-        console.log(this.#timerTime)
       } catch (NumberFormatException) {
       }
     }
@@ -86,6 +85,7 @@ export default class Timer {
    * Set the action for when time is up. 
    * color - change the background to red.
    * alert - (default) get an alert window with text "Time is up!"
+   * sound - makes a carhorn sound when time is up.
    *
    * @param {String} string
    */
@@ -246,7 +246,3 @@ export default class Timer {
 
 }
 
-
-// ta beslut om ljud
-
-// utseende
