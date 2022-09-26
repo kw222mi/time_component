@@ -43,15 +43,15 @@ export default class Timer {
   }
 
   /**
-   * @param {number} value  - the time in seconds.
+   * @param {number} number  - the time in seconds.
    */
 
-  set timerTime(value) {
-    if (value === null) {
+  set timerTime(number) {
+    if (number === null) {
       this.#timerTime = 0
     } else {
       try {
-        this.#timerTime = parseInt(value)
+        this.#timerTime = parseInt(number)
         console.log(this.#timerTime)
       } catch (NumberFormatException) {
       }
@@ -62,10 +62,10 @@ export default class Timer {
   /**
    * True by default.
    *
-   * @param {boolean} value
+   * @param {boolean} boolean
    */
-  set pauseOnHover(value) {
-    if (value) {
+  set pauseOnHover(boolean) {
+    if (boolean) {
       this.#timerDiv.addEventListener("mouseover", () => {
         this.#isPaused = true
       })
@@ -87,32 +87,32 @@ export default class Timer {
    * color - change the background to red.
    * alert - (default) get an alert window with text "Time is up!"
    *
-   * @param {String} value
+   * @param {String} string
    */
-  set timeIsUpAction(value) {
-    if (value == 'sound'){
+  set timeIsUpAction(string) {
+    if (string == 'sound') {
       this.#setupSound()
     }
-    this.#timeIsUpAction = value
+    this.#timeIsUpAction = string
   }
 
   /**
    * Change the background color to orange when 10 s left.
    * True by default.
    *
-   * @param {boolean} value
+   * @param {boolean} boolean
    */
-  set tenSecondsLeftWarning(value) {
-    this.#tenSecondsLeftWarning = value
+  set tenSecondsLeftWarning(boolean) {
+    this.#tenSecondsLeftWarning = boolean
   }
 
   /**
    * Default true.
    *
-   * @param {boolean} value
+   * @param {boolean} boolean
    */
-  set showProgressBar(value) {
-    this.#timerDiv.classList.toggle('progress', value)
+  set showProgressBar(boolean) {
+    this.#timerDiv.classList.toggle('progress', boolean)
   }
 
   #updateProgressBar() {
@@ -124,12 +124,6 @@ export default class Timer {
       this.#progressBarInterval = requestAnimationFrame(func)
     }
     this.#progressBarInterval = requestAnimationFrame(func)
-  }
-
-  update(options) {
-    Object.entries(options).forEach(([key, value]) => {
-      this[key] = value
-    })
   }
 
   #checkIfTimeIsUp(startTime) {
@@ -163,10 +157,10 @@ export default class Timer {
     let minutes = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600)) / 60)
     let secs = Math.floor((this.#timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)))
 
-    return this.#makeTimeString (days, hours, minutes, secs)
+    return this.#makeTimeString(days, hours, minutes, secs)
   }
 
-  #makeTimeString (days, hours, minutes, secs) {
+  #makeTimeString(days, hours, minutes, secs) {
     return this.#checkForDays(days) + this.#timeFormat(hours) + ' : ' + this.#timeFormat(minutes) + ' : ' + this.#timeFormat(secs)
   }
 
@@ -194,7 +188,7 @@ export default class Timer {
       alert("Time is up! ")
     }
     if (this.#timeIsUpAction === 'sound') {
-      this.#playSound()
+      this.#soundTimer()
     }
     if (this.#timeIsUpAction === 'color') {
       this.#timeUpColorChange()
@@ -205,22 +199,22 @@ export default class Timer {
    * User need to start the sound event because of restrictions in the
    * browser.
    */
-  #setupSound(){
+  #setupSound() {
     this.#isPaused = true
     let soundButton = document.createElement('button')
     soundButton.setAttribute("id", "soundButton")
     soundButton.textContent = 'Start timer'
     this.#timerDiv.appendChild(soundButton)
-    soundButton.addEventListener("click", () => this.#playSound())
+    soundButton.addEventListener("click", () => this.#soundTimer())
+  }
+
+  #soundTimer() {
+    this.#isPaused = false
+    setTimeout(() => { this.#playSound() }, this.#timerTime * 1000)
+
   }
 
   #playSound() {
-    this.#isPaused = false
-    setTimeout(() => { this.#play() }, this.#timerTime*1000)
-    
-  }
-
-  #play() {
     const audio = new Audio('./src/sound/car-horn-6408.mp3')
     audio.play()
   }
@@ -231,6 +225,12 @@ export default class Timer {
 
   #tenSecondsLeftColorChange() {
     this.#timerDiv.style.setProperty('background-color', 'orange')
+  }
+
+  update(options) {
+    Object.entries(options).forEach(([key, value]) => {
+      this[key] = value
+    })
   }
 
   remove() {

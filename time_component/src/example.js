@@ -15,20 +15,22 @@ document.querySelector('#app').innerHTML = `
   <div>
     <h1>Example app</h1>
     <div id='timerDiv'></div>
+    
   </div>
 `
-let timerElement = document.querySelector('#timerDiv')
+let timerDiv = document.querySelector('#timerDiv')
+
 let timer = new Timer ({
-  displayElement: timerElement,
-  timerTime: 20,
+  displayElement: timerDiv,
+  timerTime: 30,
   showProgressBar: true,
   pauseOnHover: true,
   timeIsUpAction: 'sound',
   tenSecondsLeftWarning: true,
 })
 
-// setTimeout(() => { timer.update(timerTime: 60, timeIsUpAction: 'color') }, 5000)
+ setTimeout(() => { timer.update({timerTime: 60, timeIsUpAction: 'color'}) }, 5000)
 
-// setTimeout(() => { timer.remove() }, 5000)
+ setTimeout(() => { timer.remove() }, 5000)
 
 

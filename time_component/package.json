@@ -1,6 +1,5 @@
 {
-  "name": "time_component",
-  "private": true,
+  "name": "@kw222mi/time_component",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
