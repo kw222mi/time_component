@@ -24,6 +24,8 @@
 Förtydligande: Examinator kommer sätta betyg oberoende på vad ni anser. 
 ​
 ## Återanvändning
+
+Jag har gjort ett enkelt kodexempel (example.js) som användaren kan titta på för att förstå hur modulen kan användas. 
 Beskriv hur du anpassat din kod och instruktioner för att någon annan programmerare skall kunna använda din modul. Om du skrivit instruktioner för din användare, länka till dessa. Om inte, beskriv här hur någon skall göra för att använda din modul.
 ​
 ## Beskrivning av min kod
@@ -88,10 +90,14 @@ Lista de enskilda testfallen. **Fetmarkera** sådant som du själv fyllt i. En r
 ​
 ## Laborationsreflektion
 
-liten uppgift bra
-lätt men svårt
-problem när man lägger till funktion boolean
-hemmablind
+Jag är glad att jag valde en relativt liten och enkel uppgift så att jag kunde koncentrera mig på kodkvalité snarare än att få ihop koden. Jag tycker att uppgiften har varit mycket givande och jag har lärt mig mycket. Jag uppfattar kodkvalitet som lätt, det finns regler att följa och dessa är logiska och tydliga. Man förstår varför det är bra att göra det som står i boken och jag ser att koden blir mycket bättre när jag följer reglerna. Samtidigt är kodkvalitet rätt svårt. Det är lätt att bli hemmablind när man sitter där i sin egen lilla värld. Man förstår precis vad alla namn betyder och metoderna är glasklara. Förmodligen är det inte lika glasklart för någon annan. 
+
+Jag märkte under arbetet med koden att det blev problem när jag lade till vissa typer av funktion. Som när jag implementerade att timern skulle stoppas när muspekaren fördes över. Jag fick införa en boolean - isPaused, och denna kom att påverka flera olika delar av koden. Många metoder var tvugna att testa om timern var pausad eller inte vilket medförde att de helt plötligt gjorde två saker och jag var tvungen att strukturera om koden helt.  
+
+Jag gillar tanken på att koden ska berätta en historia. När jag läste programmering för ca 15 år sedan fick jag lära mig att skapa en main metod som var själva programmet och bestod av endast metodanrop. Det blev väldigt mycket som att berätta en historia och jag tyckte att det gav en bra överblick. Man programmerar ju inte riktigt på samma sätt idag och jag tycker att det är mycket svårare att få till den där berättelsen särskilt om man har event inblandade som kan utlösas lite när och då.
+
+
+
 
 
 

@@ -15,7 +15,6 @@ document.querySelector('#app').innerHTML = `
   <div>
     <h1>Example app</h1>
     <div id='timerDiv'></div>
-    
   </div>
 `
 let timerDiv = document.querySelector('#timerDiv')
