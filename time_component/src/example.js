@@ -24,7 +24,7 @@ let timer = new Timer ({
   timerTime: 30,
   showProgressBar: true,
   pauseOnHover: true,
-  timeIsUpAction: 'sound',
+  timeIsUpAction: 'color',
   tenSecondsLeftWarning: true,
 })
 

@@ -16,12 +16,9 @@ Functions:
 - Optional pause on hover.
 
 
-
-
 ## How to use 
 
 Create a Timer object and pass the pararmeters
-
 
     let timerDiv = document.querySelector('#timerDiv')
     let timer = new Timer ({
@@ -42,6 +39,21 @@ Create a Timer object and pass the pararmeters
 |    pauseOnHover              |boolean |                |
 |    timeIsUpAction            |String |   color, alert or sound            |
 |    tenSecondsLeftWarning     |boolean |              |
+
+Functions to use:
+
+| Function name               | Arguments     |  detail |
+| ------------------------------------------|----------|---------|
+|  pause()     |  ---     | Pause the timer.       |
+|   start()   |   ---   |  Start the timer again.      |
+|  remove()    |  ---    |   Remove the timer from the DOM.     |
+|  update()    | parameters     |  Use the update to pass one or more parameters      |
+| setdisplayElement()     |  HTML-element    |  referens to a HTML-element       |
+|   settimerTime()   |  number     |   The time in seconds      |
+| setshowProgressBar()     |  boolean    |        |
+|  setpauseOnHover()    |   boolean   |        |
+|  settimeIsUpAction()    |   String   |    color, alert or sound     |
+|  settenSecondsLeftWarning()    |   boolean   |        |
 
 
 See example.js for more information
