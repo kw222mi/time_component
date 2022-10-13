@@ -21,7 +21,6 @@ export default class Timer {
 
   constructor(options) {
     this.update({ ...DEFAULT_OPTIONS, ...options })
-    this.#runTimer()
   }
 
   /**
@@ -31,37 +30,32 @@ export default class Timer {
   */
   set displayElement(element) {
     if (element == null) {
-      this.#createNewDisplayElement()
+      this.#timerDiv = document.createElement('div')
+      this.#timerDiv.setAttribute("id", "timerDiv")
+      document.body.appendChild(this.#timerDiv)
     } else if (element.nodeName == 'DIV') {
       this.#timerDiv = element
     } else {
-      this.#createNewDisplayElement()
+      this.#timerDiv = document.createElement('div')
+      this.#timerDiv.setAttribute("id", "timerDiv")
+      document.body.appendChild(this.#timerDiv)
     }
-  }
-
-  #createNewDisplayElement() {
-    this.#timerDiv = document.createElement('div')
-    this.#timerDiv.setAttribute("id", "timerDiv")
-    document.body.appendChild(this.#timerDiv)
   }
 
   /**
    * @param {number} number  - the time in seconds.
    */
-  set timerTime(number) { 
-    try {
-      this.#timerTime = parseInt(number)
-      this.#checkIfNumber(this.#timerTime)
-    } catch (NumberFormatException) {
-      console.error('not a number')
-    }
-    
-  }
 
-  #checkIfNumber(number) {
-    if (Number.isNaN(number)) {
-      throw new NumberFormatException()
+  set timerTime(number) {
+    if (number === null) {
+      this.#timerTime = 0
+    } else {
+      try {
+        this.#timerTime = parseInt(number)
+      } catch (NumberFormatException) {
+      }
     }
+    this.#checkIfTimeIsUp(this.#timerTime)
   }
 
   /**
@@ -121,22 +115,22 @@ export default class Timer {
     this.#timerDiv.classList.toggle('progress', boolean)
   }
 
-  pause() {
-    this.#isPaused = true
+  #updateProgressBar() {
+    const func = () => {
+      if (!this.#isPaused) {
+        this.#timerDiv.style.setProperty('--progress',
+          this.#timeLeft / this.#timerTime)
+      }
+      this.#progressBarInterval = requestAnimationFrame(func)
+    }
+    this.#progressBarInterval = requestAnimationFrame(func)
   }
-
-  start() {
-    this.#isPaused = false
-  }
-
-  #runTimer() {
-      this.#checkIfTenSecondsLeft()
-      this.#checkIfTimeIsUp(this.#timerTime)
-  }
-
 
   #checkIfTimeIsUp(startTime) {
     this.#timeLeft = startTime
+    if (this.#tenSecondsLeftWarning && this.#timeLeft < 10) {
+      this.#tenSecondsLeftColorChange()
+    }
     if (this.#timeLeft >= this.#end) {
       setTimeout(() => { this.#displayTime() }, this.#refresh)
     }
@@ -145,28 +139,16 @@ export default class Timer {
     }
   }
 
-  #checkIfTenSecondsLeft() {
-    if (this.#tenSecondsLeftWarning && this.#timeLeft < 10) {
-      this.#tenSecondsLeftColorChange()
-    }
-  }
-
   #displayTime() {
     if (!this.#isPaused) {
       let configTime = this.#calculateTimeUnits()
       this.#timerDiv.textContent = configTime
+      this.#timeLeft--
       this.#updateProgressBar()
-      this.#countDownTime()
-      this.#checkIfTenSecondsLeft()
       this.#checkIfTimeIsUp(this.#timeLeft)
     } else {
-      this.#checkIfTenSecondsLeft()
       this.#checkIfTimeIsUp(this.#timeLeft)
     }
-  }
-
-  #countDownTime() {
-    this.#timeLeft--
   }
 
   #calculateTimeUnits() {
@@ -201,17 +183,6 @@ export default class Timer {
     }
   }
 
-  #updateProgressBar() {
-    const func = () => {
-      if (!this.#isPaused) {
-        this.#timerDiv.style.setProperty('--progress',
-          this.#timeLeft / this.#timerTime)
-      }
-      this.#progressBarInterval = requestAnimationFrame(func)
-    }
-    this.#progressBarInterval = requestAnimationFrame(func)
-  }
-
   #timeIsUp() {
     if (this.#timeIsUpAction === 'alert') {
       alert("Time is up! ")
@@ -240,6 +211,7 @@ export default class Timer {
   #soundTimer() {
     this.#isPaused = false
     setTimeout(() => { this.#playSound() }, this.#timerTime * 1000)
+
   }
 
   #playSound() {
