@@ -1,0 +1,19 @@
+{
+  "name": "time_component",
+  "version": "1.0.0",
+  "description": "Component to count down time",
+  "main": "example.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kw222mi/time_component.git"
+  },
+  "author": "Therese Weidenstedt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kw222mi/time_component/issues"
+  },
+  "homepage": "https://github.com/kw222mi/time_component#readme"
+}
