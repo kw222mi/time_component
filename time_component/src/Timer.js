@@ -30,16 +30,18 @@ export default class Timer {
   */
   set displayElement(element) {
     if (element == null) {
-      this.#timerDiv = document.createElement('div')
-      this.#timerDiv.setAttribute("id", "timerDiv")
-      document.body.appendChild(this.#timerDiv)
+      this.#createtimerDiv()
     } else if (element.nodeName == 'DIV') {
       this.#timerDiv = element
     } else {
-      this.#timerDiv = document.createElement('div')
-      this.#timerDiv.setAttribute("id", "timerDiv")
-      document.body.appendChild(this.#timerDiv)
+      this.#createtimerDiv()
     }
+  }
+
+  #createtimerDiv(){
+    this.#timerDiv = document.createElement('div')
+    this.#timerDiv.setAttribute("id", "timerDiv")
+    document.body.appendChild(this.#timerDiv)
   }
 
   /**
@@ -65,20 +67,28 @@ export default class Timer {
    */
   set pauseOnHover(boolean) {
     if (boolean) {
-      this.#timerDiv.addEventListener("mouseover", () => {
-        this.#isPaused = true
-      })
-      this.#timerDiv.addEventListener("mouseleave", () => {
-        this.#isPaused = false
-      })
+      this.#addEventlisteners()
     } else {
-      this.#timerDiv.removeEventListener("mouseover", () => {
-        this.#isPaused = true
-      })
-      this.#timerDiv.removeEventListener("mouseleave", () => {
-        this.#isPaused = false
-      })
+      this.#removeEventListeners()
     }
+  }
+
+  #addEventlisteners () {
+    this.#timerDiv.addEventListener("mouseover", () => {
+      this.#isPaused = true
+    })
+    this.#timerDiv.addEventListener("mouseleave", () => {
+      this.#isPaused = false
+    })
+  }
+
+  #removeEventListeners() {
+    this.#timerDiv.removeEventListener("mouseover", () => {
+      this.#isPaused = true
+    })
+    this.#timerDiv.removeEventListener("mouseleave", () => {
+      this.#isPaused = false
+    })
   }
 
   /**
@@ -96,6 +106,47 @@ export default class Timer {
     this.#timeIsUpAction = string
   }
 
+  #timeIsUp() {
+    if (this.#timeIsUpAction === 'alert') {
+      alert("Time is up! ")
+    }
+    if (this.#timeIsUpAction === 'sound') {
+      this.#soundTimer()
+    }
+    if (this.#timeIsUpAction === 'color') {
+      this.#timeUpColorChange()
+    }
+  }
+
+  /**
+   * User need to start the sound event because of restrictions in the
+   * browser.
+   */
+  #setupSound() {
+    this.#isPaused = true
+    let soundButton = document.createElement('button')
+    soundButton.setAttribute("id", "soundButton")
+    soundButton.textContent = 'Start timer'
+    this.#timerDiv.appendChild(soundButton)
+    soundButton.addEventListener("click", () => this.#soundTimer())
+  }
+
+  #soundTimer() {
+    this.#isPaused = false
+    setTimeout(() => { this.#playSound() }, this.#timerTime * 1000)
+
+  }
+
+  #playSound() {
+    const audio = new Audio('./src/sound/car-horn-6408.mp3')
+    audio.play()
+  }
+
+  #timeUpColorChange() {
+    this.#timerDiv.style.setProperty('background-color', 'red')
+  }
+
+
   /**
    * Change the background color to orange when 10 s left.
    * True by default.
@@ -104,6 +155,10 @@ export default class Timer {
    */
   set tenSecondsLeftWarning(boolean) {
     this.#tenSecondsLeftWarning = boolean
+  }
+
+  #tenSecondsLeftColorChange() {
+    this.#timerDiv.style.setProperty('background-color', 'orange')
   }
 
   /**
@@ -181,50 +236,6 @@ export default class Timer {
     } else {
       return `${days} Days `
     }
-  }
-
-  #timeIsUp() {
-    if (this.#timeIsUpAction === 'alert') {
-      alert("Time is up! ")
-    }
-    if (this.#timeIsUpAction === 'sound') {
-      this.#soundTimer()
-    }
-    if (this.#timeIsUpAction === 'color') {
-      this.#timeUpColorChange()
-    }
-  }
-
-  /**
-   * User need to start the sound event because of restrictions in the
-   * browser.
-   */
-  #setupSound() {
-    this.#isPaused = true
-    let soundButton = document.createElement('button')
-    soundButton.setAttribute("id", "soundButton")
-    soundButton.textContent = 'Start timer'
-    this.#timerDiv.appendChild(soundButton)
-    soundButton.addEventListener("click", () => this.#soundTimer())
-  }
-
-  #soundTimer() {
-    this.#isPaused = false
-    setTimeout(() => { this.#playSound() }, this.#timerTime * 1000)
-
-  }
-
-  #playSound() {
-    const audio = new Audio('./src/sound/car-horn-6408.mp3')
-    audio.play()
-  }
-
-  #timeUpColorChange() {
-    this.#timerDiv.style.setProperty('background-color', 'red')
-  }
-
-  #tenSecondsLeftColorChange() {
-    this.#timerDiv.style.setProperty('background-color', 'orange')
   }
 
   update(options) {
