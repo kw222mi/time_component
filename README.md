@@ -2,7 +2,7 @@
 
 A simple timer component with a countdown and an optional progressbar.
 
-![bild1](/time_component/public/test_img/1.png)
+![bild1](/time_component//time_component/public/test_img/1.png)
 
 
 Functions:
@@ -37,7 +37,7 @@ Create a Timer object and pass the pararmeters
 |     timerTime                |number   |            The time in seconds     |
 |     showProgressBar          | boolean |               |
 |    pauseOnHover              |boolean |                |
-|    timeIsUpAction            |String |   color, alert or sound            |
+|    timeIsUpAction            |String |   color, alert, alertAndRemove or sound            |
 |    tenSecondsLeftWarning     |boolean |              |
 
 Functions to use:
@@ -52,11 +52,29 @@ Functions to use:
 |   settimerTime()   |  number     |   The time in seconds      |
 | setshowProgressBar()     |  boolean    |        |
 |  setpauseOnHover()    |   boolean   |        |
-|  settimeIsUpAction()    |   String   |    color, alert or sound     |
+|  settimeIsUpAction()    |   String   | color, alert, alertAndRemove or sound. The alert and remove function let the timer remove itself from the DOM when the time is up.   |
 |  settenSecondsLeftWarning()    |   boolean   |        |
 
 
 See example.js for more information
+
+## Install and Run
+
+### clone the repo
+
+git clone https://github.com/kw222mi/time_component.git
+
+### Running Locally
+
+If you want to start the application you can run it locally:
+
+npm install
+
+npm run dev
+
+Runs the app in development mode.
+
+Open http://127.0.0.1:5173/ to view it in the browser
 
 ## License
 
