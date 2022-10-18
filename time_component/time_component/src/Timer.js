@@ -29,9 +29,9 @@ export default class Timer {
   * @param {HTMLElement} element - referens to a DIV-element to display the timer.
   */
   set displayElement(element) {
-    if (element == null) {
+    if (element === null) {
       this.#createtimerDiv()
-    } else if (element.nodeName == 'DIV') {
+    } else if (element.nodeName === 'DIV') {
       this.#timerDiv = element
     } else {
       this.#createtimerDiv()
@@ -100,12 +100,13 @@ export default class Timer {
    * @param {String} string
    */
   set timeIsUpAction(string) {
-    if (string == 'sound') {
+    if (string === 'sound') {
       this.#setupSound()
     }
     this.#timeIsUpAction = string
   }
 
+  // This should be in its own class. Togehter with the sound functions.
   #timeIsUp() {
     if (this.#timeIsUpAction === 'alert') {
       alert("Time is up! ")
@@ -115,6 +116,10 @@ export default class Timer {
     }
     if (this.#timeIsUpAction === 'color') {
       this.#timeUpColorChange()
+    }
+    if (this.#timeIsUpAction === 'alertAndRemove') {
+      alert("Time is up! ")
+      this.remove()
     }
   }
 
@@ -220,7 +225,7 @@ export default class Timer {
   }
 
   #timeFormat(timeUnit) {
-    if (timeUnit == 0) {
+    if (timeUnit === 0) {
       return `00`
     }
     if (timeUnit < 10) {
@@ -231,7 +236,7 @@ export default class Timer {
   }
 
   #checkForDays(days) {
-    if (days == 0) {
+    if (days === 0) {
       return ``
     } else {
       return `${days} Days `
